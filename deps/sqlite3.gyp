@@ -126,6 +126,14 @@
             '>(openssl_root)/include'
           ]
         },
+        'OS == "ios" or OS == "android"', {
+          'link_settings': {
+            'libraries': [
+              # This statically links libcrypto, whereas -lcrypto would dynamically link it
+              '<(openssl_root)/libcrypto.a'
+            ]
+          }
+        },
         { # linux
           'include_dirs': [
             '<(SHARED_INTERMEDIATE_DIR)/sqlcipher-amalgamation-<@(sqlite_version)/'

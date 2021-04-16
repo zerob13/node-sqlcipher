@@ -9,9 +9,10 @@
       "target_name": "<(module_name)",
       "cflags!": [ "-fno-exceptions" ],
       "cflags_cc!": [ "-fno-exceptions" ],
-      "xcode_settings": { "GCC_ENABLE_CPP_EXCEPTIONS": "YES",
+      "xcode_settings": {
+        "GCC_ENABLE_CPP_EXCEPTIONS": "YES",
         "CLANG_CXX_LIBRARY": "libc++",
-        "MACOSX_DEPLOYMENT_TARGET": "10.7",
+        "OTHER_CPLUSPLUSFLAGS": ["-std=c++11"],
       },
       "msvs_settings": {
         "VCCLCompilerTool": { "ExceptionHandling": 1 },
@@ -40,8 +41,12 @@
               "<!(node -p \"require('node-addon-api').gyp\")",
               "deps/sqlite3.gyp:sqlite3"
             ]
-        }
-        ]
+        }],
+        ["OS != 'ios'", {
+            "xcode_settings": {
+                "MACOSX_DEPLOYMENT_TARGET": "10.7",
+            }
+        }]
       ],
       "sources": [
         "src/backup.cc",
@@ -49,7 +54,7 @@
         "src/node_sqlite3.cc",
         "src/statement.cc"
       ],
-      "defines": [ "NAPI_VERSION=<(napi_build_version)", "NAPI_DISABLE_CPP_EXCEPTIONS=1" ]
+      "defines": [ "NAPI_VERSION=5", "NAPI_DISABLE_CPP_EXCEPTIONS=1" ]
     },
     {
       "target_name": "action_after_build",
