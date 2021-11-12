@@ -67,9 +67,17 @@
         }
       },
       'OS == "mac"', {
-        'variables': {
-          'openssl_root%': '/usr/local/opt/openssl@1.1'
-        },
+        'conditions': [
+          ['target_arch == "arm64"', {
+            'variables': {
+              'openssl_root%': '/opt/homebrew/opt/openssl@1.1'
+            }
+          }, {
+            'variables': {
+              'openssl_root%': '/usr/local/opt/openssl@1.1'
+            }
+          }]
+        ]
         'link_settings': {
           'libraries': [
             # This statically links libcrypto, whereas -lcrypto would dynamically link it
